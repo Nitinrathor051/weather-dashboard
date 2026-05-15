@@ -22,6 +22,8 @@ const sendEmailOtp = async (email, otp) => {
       tls: {
         rejectUnauthorized: false,
       },
+
+      family: 4, // FORCE IPV4 (IMPORTANT FOR RENDER)
     });
 
     await transporter.sendMail({
@@ -113,6 +115,14 @@ exports.verifyRegisterOtp = async (req, res) => {
       });
     }
 
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      return res.status(400).json({
+        message: "User already exists",
+      });
+    }
+
     const hashedPassword =
       await bcrypt.hash(password, 10);
 
@@ -149,6 +159,12 @@ exports.login = async (req, res) => {
   try {
 
     const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({
+        message: "All fields are required",
+      });
+    }
 
     const user = await User.findOne({ email });
 

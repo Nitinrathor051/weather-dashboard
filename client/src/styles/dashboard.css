@@ -1,0 +1,196 @@
+
+/* =========================
+   DASHBOARD (WEATHER SAAS UI)
+========================= */
+
+.dashboard {
+  min-height: 100vh;
+  padding: 20px;
+
+  /* 🌌 WEATHER BACKGROUND */
+  background:
+    radial-gradient(circle at top left, rgba(59,130,246,0.25), transparent 40%),
+    radial-gradient(circle at top right, rgba(99,102,241,0.20), transparent 45%),
+    radial-gradient(circle at bottom, rgba(14,165,233,0.15), transparent 50%),
+    linear-gradient(180deg, #0b1220 0%, #0f172a 100%);
+
+  color: #e5e7eb;
+}
+
+/* =========================
+   TOP BAR (GLASS EFFECT)
+========================= */
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 16px 18px;
+  border-radius: 16px;
+
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255,255,255,0.08);
+
+  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+}
+
+.topbar h2 {
+  color: #f1f5f9;
+  font-size: 18px;
+}
+
+/* =========================
+   INPUT AREA
+========================= */
+
+.inputBox {
+  display: flex;
+  gap: 12px;
+  margin: 18px 0;
+}
+
+.inputBox input {
+  flex: 1;
+  padding: 12px 14px;
+
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.12);
+
+  background: rgba(255,255,255,0.06);
+  color: white;
+
+  outline: none;
+
+  backdrop-filter: blur(10px);
+}
+
+.inputBox input::placeholder {
+  color: rgba(255,255,255,0.5);
+}
+
+.inputBox button {
+  padding: 12px 16px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  color: white;
+
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* =========================
+   GRID (IMPORTANT FIX)
+========================= */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+/* tablet */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* mobile */
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================
+   WEATHER CARD (GLASS STYLE)
+========================= */
+
+.card {
+  padding: 16px;
+  border-radius: 18px;
+
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(14px);
+
+  border: 1px solid rgba(255,255,255,0.08);
+
+  color: white;
+
+  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+
+  transition: 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  background: rgba(255,255,255,0.10);
+}
+
+.card h3 {
+  margin-bottom: 10px;
+  color: #f8fafc;
+}
+
+.card p {
+  color: rgba(255,255,255,0.75);
+  margin: 4px 0;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.card button {
+  margin-top: 10px;
+  margin-right: 6px;
+
+  padding: 8px 10px;
+
+  border-radius: 10px;
+  border: none;
+
+  cursor: pointer;
+
+  background: rgba(59,130,246,0.8);
+  color: white;
+
+  font-weight: 600;
+}
+
+.card .delete {
+  background: rgba(239,68,68,0.85);
+}
+
+/* =========================
+   STATES
+========================= */
+
+.loading,
+.empty {
+  text-align: center;
+  margin-top: 16px;
+  color: rgba(255,255,255,0.6);
+}
+
+/* =========================
+   LOGOUT BUTTON
+========================= */
+
+.logout {
+  background: rgba(239,68,68,0.9);
+  color: white;
+
+  border: none;
+  padding: 10px 14px;
+
+  border-radius: 12px;
+
+  cursor: pointer;
+}

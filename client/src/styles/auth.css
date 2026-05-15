@@ -1,0 +1,80 @@
+
+/* =========================
+   AUTH PAGE (LOGIN / REGISTER)
+========================= */
+
+.auth-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: radial-gradient(circle at top, #1e293b, #0b1220);
+  padding: 20px;
+}
+
+/* CARD */
+.auth-card {
+  width: 100%;
+  max-width: 380px;
+
+  background: white;
+  border-radius: 18px;
+
+  padding: 28px;
+
+  box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+  text-align: center;
+}
+
+/* TITLE */
+.auth-card h2 {
+  font-size: 22px;
+  margin-bottom: 18px;
+}
+
+/* INPUT */
+.auth-card input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+
+  outline: none;
+  font-size: 14px;
+}
+
+/* focus */
+.auth-card input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(59,130,246,0.15);
+}
+
+/* BUTTON */
+.auth-card button {
+  width: 100%;
+  padding: 12px;
+
+  background: var(--primary);
+  color: white;
+
+  border: none;
+  border-radius: 10px;
+
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.auth-card button:hover {
+  background: var(--primary-dark);
+}
+
+/* LINK TEXT */
+.auth-card p {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--muted);
+  cursor: pointer;
+}

@@ -16,7 +16,10 @@ const app = express();
 // ---------------- MIDDLEWARE ----------------
 app.use(
   cors({
-    origin: true, // allow all (safe for now, works with Vercel)
+    origin: [
+      "http://localhost:5173",
+      process.env.FRONTEND_URL,
+    ],
     credentials: true,
   })
 );
@@ -40,9 +43,11 @@ app.get("/", (req, res) => {
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
+
     console.log("MongoDB Connected Successfully");
   } catch (err) {
     console.error("MongoDB Connection Error:", err.message);
+
     process.exit(1);
   }
 };

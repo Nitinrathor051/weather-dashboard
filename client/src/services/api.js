@@ -1,9 +1,11 @@
 import axios from "axios";
 
 const API = axios.create({
-  // baseURL: "https://weather-backend-xez1.onrender.com/api",
-  baseURL: "http://localhost:5000/api",
-  withCredentials: true, // important for CORS + auth
+  baseURL:
+    import.meta.env.VITE_API_URL ||
+    "http://localhost:5000/api",
+
+  withCredentials: true,
 });
 
 API.interceptors.request.use((config) => {
@@ -16,11 +18,15 @@ API.interceptors.request.use((config) => {
   return config;
 });
 
-// optional: error logging (helpful for debug)
 API.interceptors.response.use(
   (response) => response,
+
   (error) => {
-    console.error("API Error:", error.response?.data || error.message);
+    console.error(
+      "API Error:",
+      error.response?.data || error.message
+    );
+
     return Promise.reject(error);
   }
 );

@@ -1,12 +1,12 @@
 import { useState } from "react";
 import API from "../services/api";
-import { setToken } from "../services/auth";
 import { useNavigate } from "react-router-dom";
 
 import "../styles/global.css";
 import "../styles/auth.css";
 
 function Login() {
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -23,17 +23,26 @@ function Login() {
     }
 
     try {
+
       setLoading(true);
 
-      const res = await API.post("/auth/login", {
-        email,
-        password,
-      });
+      const res = await API.post(
+        "/auth/login",
+        {
+          email,
+          password,
+        }
+      );
 
-      // save token
-      setToken(res.data.token);
+      console.log(res.data);
 
-      // save user
+      // SAVE TOKEN
+      localStorage.setItem(
+        "token",
+        res.data.token
+      );
+
+      // SAVE USER
       localStorage.setItem(
         "user",
         JSON.stringify(res.data.user)
@@ -41,7 +50,8 @@ function Login() {
 
       alert("Login successful");
 
-      navigate("/dashboard");
+      // REDIRECT
+      window.location.href = "/dashboard";
 
     } catch (err) {
 
@@ -53,7 +63,9 @@ function Login() {
       );
 
     } finally {
+
       setLoading(false);
+
     }
   };
 
@@ -103,7 +115,7 @@ function Login() {
             : "Login"}
         </button>
 
-        {/* LINKS */}
+        {/* REGISTER LINK */}
         <div
           style={{
             marginTop: "12px",

@@ -13,6 +13,7 @@ function Login() {
 
   const navigate = useNavigate();
 
+  // ================= LOGIN =================
   const loginUser = async (e) => {
     e.preventDefault();
 
@@ -21,20 +22,36 @@ function Login() {
       return;
     }
 
-    setLoading(true);
-
     try {
+      setLoading(true);
+
       const res = await API.post("/auth/login", {
         email,
         password,
       });
 
+      // save token
       setToken(res.data.token);
+
+      // save user
+      localStorage.setItem(
+        "user",
+        JSON.stringify(res.data.user)
+      );
+
+      alert("Login successful");
 
       navigate("/dashboard");
 
     } catch (err) {
-      alert(err.response?.data?.message || "Login failed");
+
+      console.log(err);
+
+      alert(
+        err.response?.data?.message ||
+        "Login failed"
+      );
+
     } finally {
       setLoading(false);
     }
@@ -43,44 +60,67 @@ function Login() {
   return (
     <div className="auth-container">
 
-      <form className="auth-card" onSubmit={loginUser}>
+      <form
+        className="auth-card"
+        onSubmit={loginUser}
+      >
 
         <h2>Welcome Back</h2>
-        <p>Login to continue to Weather Dashboard</p>
 
+        <p>
+          Login to continue to Weather Dashboard
+        </p>
+
+        {/* EMAIL */}
         <input
           type="email"
-          placeholder="Email"
+          placeholder="Enter Email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) =>
+            setEmail(e.target.value)
+          }
+          autoComplete="email"
         />
 
+        {/* PASSWORD */}
         <input
           type="password"
-          placeholder="Password"
+          placeholder="Enter Password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) =>
+            setPassword(e.target.value)
+          }
+          autoComplete="current-password"
         />
 
-        <button disabled={loading}>
-          {loading ? "Logging in..." : "Login"}
+        {/* BUTTON */}
+        <button
+          type="submit"
+          disabled={loading}
+        >
+          {loading
+            ? "Logging in..."
+            : "Login"}
         </button>
 
         {/* LINKS */}
-        <div style={{ marginTop: "12px", textAlign: "center" }}>
+        <div
+          style={{
+            marginTop: "12px",
+            textAlign: "center",
+          }}
+        >
 
           <p
-            style={{ cursor: "pointer", color: "blue" }}
-            onClick={() => navigate("/forgot-password")}
+            style={{
+              cursor: "pointer",
+            }}
+            onClick={() =>
+              navigate("/register")
+            }
           >
-            Forgot Password?
-          </p>
-
-          <p
-            style={{ cursor: "pointer" }}
-            onClick={() => navigate("/register")}
-          >
-            Don’t have an account? <b>Register</b>
+            Don’t have an account?
+            <b> Register</b>
           </p>
 
         </div>

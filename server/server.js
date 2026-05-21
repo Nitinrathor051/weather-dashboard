@@ -13,12 +13,13 @@ const aiRoutes = require("./routes/aiRoutes");
 
 const app = express();
 
-// ---------------- MIDDLEWARE ----------------
+
+// ================= MIDDLEWARE =================
 app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      process.env.FRONTEND_URL,
+      "https://weather-dashboard-rose-zeta.vercel.app",
     ],
     credentials: true,
   })
@@ -26,12 +27,14 @@ app.use(
 
 app.use(express.json());
 
-// ---------------- ROUTES ----------------
+
+// ================= ROUTES =================
 app.use("/api/auth", authRoutes);
 app.use("/api/cities", cityRoutes);
 app.use("/api/ai", aiRoutes);
 
-// ---------------- HEALTH CHECK ----------------
+
+// ================= HEALTH CHECK =================
 app.get("/", (req, res) => {
   res.json({
     success: true,
@@ -39,14 +42,21 @@ app.get("/", (req, res) => {
   });
 });
 
-// ---------------- DB CONNECTION ----------------
+
+// ================= DB CONNECTION =================
 const connectDB = async () => {
   try {
+
     await mongoose.connect(process.env.MONGO_URI);
 
     console.log("MongoDB Connected Successfully");
+
   } catch (err) {
-    console.error("MongoDB Connection Error:", err.message);
+
+    console.error(
+      "MongoDB Connection Error:",
+      err.message
+    );
 
     process.exit(1);
   }
@@ -54,7 +64,8 @@ const connectDB = async () => {
 
 connectDB();
 
-// ---------------- START SERVER ----------------
+
+// ================= START SERVER =================
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {

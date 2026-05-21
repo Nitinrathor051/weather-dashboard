@@ -6,21 +6,22 @@ import "../styles/global.css";
 import "../styles/auth.css";
 
 function Register() {
-  const [step, setStep] = useState(1); // 1 = details, 2 = otp
-  const [loading, setLoading] = useState(false);
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [otp, setOtp] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
-  // ================= STEP 1: SEND OTP =================
-  const sendOtp = async (e) => {
+  // ================= REGISTER =================
+  const registerUser = async (e) => {
     e.preventDefault();
 
-    if (!name || !email || !password) {
+    if (
+      !name.trim() ||
+      !email.trim() ||
+      !password.trim()
+    ) {
       alert("Please fill all fields");
       return;
     }
@@ -28,42 +29,25 @@ function Register() {
     try {
       setLoading(true);
 
-      await API.post("/auth/send-otp", { email });
-
-      alert("OTP sent to email");
-      setStep(2);
-
-    } catch (err) {
-      alert(err.response?.data?.message || "OTP send failed");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // ================= STEP 2: VERIFY OTP =================
-  const verifyOtp = async (e) => {
-    e.preventDefault();
-
-    if (!otp) {
-      alert("Enter OTP");
-      return;
-    }
-
-    try {
-      setLoading(true);
-
-      await API.post("/auth/verify-register", {
+      await API.post("/auth/register", {
         name,
         email,
         password,
-        otp,
       });
 
       alert("Registered successfully");
+
       navigate("/");
 
     } catch (err) {
-      alert(err.response?.data?.message || "OTP verification failed");
+
+      console.log(err);
+
+      alert(
+        err.response?.data?.message ||
+        "Register failed"
+      );
+
     } finally {
       setLoading(false);
     }
@@ -72,59 +56,74 @@ function Register() {
   return (
     <div className="auth-container">
 
-      {/* ================= STEP 1 ================= */}
-      {step === 1 && (
-        <form className="auth-card" onSubmit={sendOtp}>
+      <form
+        className="auth-card"
+        onSubmit={registerUser}
+      >
 
-          <h2>Create Account</h2>
-          <p>Step 1: Enter Details</p>
+        <h2>Create Account</h2>
 
-          <input
-            placeholder="Full Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
+        <p>
+          Join Weather Dashboard
+        </p>
 
-          <input
-            placeholder="Email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+        {/* NAME */}
+        <input
+          type="text"
+          placeholder="Full Name"
+          value={name}
+          onChange={(e) =>
+            setName(e.target.value)
+          }
+          autoComplete="name"
+        />
 
-          <input
-            placeholder="Password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+        {/* EMAIL */}
+        <input
+          type="email"
+          placeholder="Enter Email"
+          value={email}
+          onChange={(e) =>
+            setEmail(e.target.value)
+          }
+          autoComplete="email"
+        />
 
-          <button disabled={loading}>
-            {loading ? "Sending OTP..." : "Send OTP"}
-          </button>
+        {/* PASSWORD */}
+        <input
+          type="password"
+          placeholder="Create Password"
+          value={password}
+          onChange={(e) =>
+            setPassword(e.target.value)
+          }
+          autoComplete="new-password"
+        />
 
-        </form>
-      )}
+        {/* BUTTON */}
+        <button
+          type="submit"
+          disabled={loading}
+        >
+          {loading
+            ? "Creating Account..."
+            : "Register"}
+        </button>
 
-      {/* ================= STEP 2 ================= */}
-      {step === 2 && (
-        <form className="auth-card" onSubmit={verifyOtp}>
+        {/* LOGIN LINK */}
+        <p
+          style={{
+            marginTop: "12px",
+            cursor: "pointer",
+            textAlign: "center",
+          }}
+          onClick={() => navigate("/")}
+        >
+          Already have an account?
+          <b> Login</b>
+        </p>
 
-          <h2>Verify OTP</h2>
-          <p>Enter OTP sent to your email</p>
-
-          <input
-            placeholder="Enter OTP"
-            value={otp}
-            onChange={(e) => setOtp(e.target.value)}
-          />
-
-          <button disabled={loading}>
-            {loading ? "Verifying..." : "Verify & Register"}
-          </button>
-
-        </form>
-      )}
+      </form>
 
     </div>
   );
